@@ -1,0 +1,76 @@
+services:
+  # Application
+  mc-vanilla: 
+    container_name: mc-denkettle
+    restart: always
+    stdin_open: TRUE
+    tty: TRUE
+    image: itzg/minecraft-server
+    env_file:
+      - .env
+    environment:
+      TZ: Asia/Tokyo
+      EULA: TRUE
+      ENABLE_ROLLING_LOGS: TRUE
+      TYPE: "VANILLA"
+      DIFFICULTY: "hard"
+      LEVEL: "world"
+      VERSION: 1.21.4
+      MOTD: "✋(◉ ω ◉｀)よお"
+      MAX_PLAYERS: 30
+      MAX_WORLD_SIZE: 12000
+      ENABLE_RCON: TRUE
+      RCON_PASSWORD: ${PASSWD}
+      ENABLE_COMMAND_BLOCK: TRUE
+      FORCE_WORLD_COPY: TRUE
+      SNOOPER_ENABLED: FALSE
+      VIEW_DISTANCE: 50
+      SIMULATION_DISTANCE: 100
+      MODE: "SURVIVAL"
+      PVP: TRUE
+      ANNOUNCE_PLAYER_ACHIEVEMENTS: TRUE
+      OVERRIDE_ICON: TRUE
+      ENABLE_WHITELIST: TRUE
+      INIT_MEMORY: 4G
+      MAX_MEMORY: 20G
+      JVM_OPTS: "-XX:ThreadStackSize=4096 -XX:ParallelGCThreads=3 -XX:ConcGCThreads=3 -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:G1HeapRegionSize=8M -XX:+UseStringDeduplication"
+    ports:
+      - "25565:25565"
+    dns:
+      - 10.0.128.1
+      - 8.8.8.8
+      - 100.100.100.100
+    volumes:
+      - ~/minecraft/data:/data
+      - /etc/timezone:/etc/timezone:ro
+    deploy:
+      resources:
+        limits:
+          cpus: 6.5
+          memory: 21.0G
+  
+  # Backup
+  backup:
+    restart: always
+    image: itzg/mc-backup
+    depends_on:
+      - mc-vanilla
+    environment:
+      TZ: Asia/Tokyo
+      BACKUP_NAME: "vanilla"
+      BACKUP_INTERVAL: 12h
+      BACKUP_METHOD: "tar"
+      BACKUP_ON_STARTUP: TRUE
+      PRUNE_BACKUPS_DAYS: 5
+      PAUSE_IF_NO_PLAYERS: TRUE
+      PLAYERS_ONLINE_CHECK_INTERVAL: 5m
+      INITIAL_DELAY: 2m
+      RCON_HOST: localhost
+      RCON_PASSWORD: ${PASSWD}
+      SERVER_HOST: 100.83.249.7
+    volumes:
+      - ~/minecraft/backup/data:/data
+    network_mode: "service:mc-vanilla"
+
+volumes:
+  data: {}
