@@ -1,16 +1,26 @@
 # minecraft-denkettle
-private minecraft server configuration
+
+Private minecraft server configuration.
 
 ## .env file
 
 ```shell
-echo "PASSWD=<Your password>" > .env
+cat <<EOF > .env
+PASSWD=<Your password>
+LOCAL_DNS=<DNS server IP>
+SERVER_HOST_NAME=<Server host name>
+CONTAINER_NAME=<Minecraft container name>
+EOF
+```
+
+```shell
+source .env
 ```
 
 ## Commands
 
 ```shell
-docker exec -i mc-denkettle rcon-cli
+docker exec -i $CONTAINER_NAME rcon-cli
 ```
 
 ```shell
