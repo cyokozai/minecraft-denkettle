@@ -55,6 +55,8 @@ services:
     image: itzg/mc-backup
     depends_on:
       - mc-vanilla
+    env_file:
+      - .env
     environment:
       TZ: Asia/Tokyo
       BACKUP_NAME: "vanilla"
