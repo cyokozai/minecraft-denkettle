@@ -15,7 +15,7 @@ services:
       TYPE: "VANILLA"
       DIFFICULTY: "hard"
       LEVEL: "world"
-      VERSION: 1.21.4
+      VERSION: latest
       MOTD: "✋(◉ ω ◉｀)よお"
       MAX_PLAYERS: 30
       MAX_WORLD_SIZE: 12000
@@ -41,7 +41,7 @@ services:
       - 8.8.8.8
       - 100.100.100.100
     volumes:
-      - ~/minecraft/data:/data
+      - ./minecraft/data:/data
       - /etc/timezone:/etc/timezone:ro
     deploy:
       resources:
@@ -55,8 +55,6 @@ services:
     image: itzg/mc-backup
     depends_on:
       - mc-vanilla
-    env_file:
-      - .env
     environment:
       TZ: Asia/Tokyo
       BACKUP_NAME: "vanilla"
@@ -71,7 +69,7 @@ services:
       RCON_PASSWORD: ${PASSWD}
       SERVER_HOST: ${SERVER_HOST_NAME}
     volumes:
-      - ~/minecraft/backup/data:/data
+      - ./minecraft/backup/data:/data
     network_mode: "service:mc-vanilla"
 
 volumes:
