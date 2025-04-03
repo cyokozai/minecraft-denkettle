@@ -19,6 +19,14 @@ source .env
 
 ## Commands
 
+- Docker compose up
+
+```shell
+docker compose up -d
+```
+
+## RCON Commands
+
 ```shell
 docker exec -i $CONTAINER_NAME rcon-cli
 ```
@@ -26,3 +34,5 @@ docker exec -i $CONTAINER_NAME rcon-cli
 ```shell
 give give <target> <item> [<count>]
 ```
+
+## Plugin
