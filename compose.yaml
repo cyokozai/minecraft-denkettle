@@ -12,10 +12,10 @@ services:
       TZ: Asia/Tokyo
       EULA: TRUE
       ENABLE_ROLLING_LOGS: TRUE
-      TYPE: "VANILLA"
+      # VERSION: latest
+      # TYPE: "VANILLA"
       DIFFICULTY: "hard"
       LEVEL: "world"
-      VERSION: latest
       MOTD: "✋(◉ ω ◉｀)よお"
       MAX_PLAYERS: 30
       MAX_WORLD_SIZE: 12000
@@ -26,14 +26,19 @@ services:
       SNOOPER_ENABLED: FALSE
       VIEW_DISTANCE: 50
       SIMULATION_DISTANCE: 100
-      MODE: "SURVIVAL"
+      GAMEMODE: "survival"
       PVP: TRUE
       ANNOUNCE_PLAYER_ACHIEVEMENTS: TRUE
       OVERRIDE_ICON: TRUE
       ENABLE_WHITELIST: TRUE
+      MAX_THREADS: 6
       INIT_MEMORY: 4G
       MAX_MEMORY: 20G
-      JVM_OPTS: "-XX:ThreadStackSize=4096 -XX:ParallelGCThreads=3 -XX:ConcGCThreads=3 -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:G1HeapRegionSize=8M -XX:+UseStringDeduplication"
+      JVM_OPTS: "-XX:MaxRAMPercentage=80 -XX:ThreadStackSize=4096 -XX:ParallelGCThreads=3 -XX:ConcGCThreads=3 -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:G1HeapRegionSize=8M -XX:+UseStringDeduplication"
+      # Plugins
+      VERSION: 1.21.6
+      TYPE: "SPIGOT"
+      PLUGINS_FILE: "./plugins.txt"
     ports:
       - "25565:25565"
     dns:
