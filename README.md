@@ -35,4 +35,15 @@ docker exec -i $CONTAINER_NAME rcon-cli
 give give <target> <item> [<count>]
 ```
 
+    ```shell
+    docker exec -i $CONTAINER_NAME rcon-cli
+    ```
+
+    ```shell
+    /give <target> <item> [<count>]
+    /xp add <target> <num> points
+    /enchant <target> unbreaking 3
+    /enchant <target> mending
+    ```
+
 ## Plugin
