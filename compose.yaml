@@ -12,7 +12,7 @@ services:
       TZ: Asia/Tokyo
       EULA: TRUE
       ENABLE_ROLLING_LOGS: TRUE
-      VERSION: latest
+      VERSION: "1.21.6" # or "latest"
       TYPE: "VANILLA"
       DIFFICULTY: "hard"
       LEVEL: "world"
