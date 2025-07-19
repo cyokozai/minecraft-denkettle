@@ -1,6 +1,6 @@
 # minecraft-denkettle
 
-Private minecraft server configuration.
+Private minecraft server "denkettle" configuration.
 
 ## .env file
 
@@ -22,17 +22,17 @@ source .env
 
 - Docker compose up
 
-```shell
-docker compose up -d
-```
+  ```shell
+  docker compose up -d
+  ```
 
 ## RCON Commands
 
 - Run Docker commands
 
-```shell
-docker exec -i $CONTAINER_NAME rcon-cli
-```
+  ```shell
+  docker exec -i $CONTAINER_NAME rcon-cli
+  ```
 
 - RCON commands
   - give
