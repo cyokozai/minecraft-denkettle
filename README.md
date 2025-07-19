@@ -10,6 +10,7 @@ PASSWD=<Your password>
 LOCAL_DNS=<DNS server IP>
 SERVER_HOST_NAME=<Server host name>
 CONTAINER_NAME=<Minecraft container name>
+VERSION=<Version Number>
 EOF
 ```
 
@@ -27,23 +28,32 @@ docker compose up -d
 
 ## RCON Commands
 
+- Run Docker commands
+
 ```shell
 docker exec -i $CONTAINER_NAME rcon-cli
 ```
 
-```shell
-give give <target> <item> [<count>]
-```
+- RCON commands
+  - give
 
     ```shell
-    docker exec -i $CONTAINER_NAME rcon-cli
+    give <target> <item> [<count>]
     ```
+  
+  - xp
 
     ```shell
-    /give <target> <item> [<count>]
-    /xp add <target> <num> points
-    /enchant <target> unbreaking 3
-    /enchant <target> mending
+    xp add <target> <num> points
+    ```
+  
+  - enchant
+
+    ```shell
+    enchant <target> <enchant name> [<count>]
     ```
 
-## Plugin
+    - unbreaking, mending
+
+## Plugin Server
+
