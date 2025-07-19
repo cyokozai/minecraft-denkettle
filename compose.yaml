@@ -12,7 +12,7 @@ services:
       TZ: Asia/Tokyo
       EULA: TRUE
       ENABLE_ROLLING_LOGS: TRUE
-      VERSION: "1.21.7" # or "latest"
+      VERSION: "1.21.8" # or "latest"
       TYPE: "VANILLA"
       DIFFICULTY: "hard"
       LEVEL: "world"
@@ -31,9 +31,9 @@ services:
       ANNOUNCE_PLAYER_ACHIEVEMENTS: TRUE
       OVERRIDE_ICON: TRUE
       ENABLE_WHITELIST: TRUE
-      MAX_THREADS: 7
+      MAX_THREADS: 8
       INIT_MEMORY: 4G
-      MAX_MEMORY: 32G
+      MAX_MEMORY: 24G
       JVM_OPTS: "-XX:MaxRAMPercentage=95 -XX:ThreadStackSize=4096 -XX:ParallelGCThreads=3 -XX:ConcGCThreads=3 -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:G1HeapRegionSize=8M -XX:+UseStringDeduplication"
       # Plugins
       # VERSION: 1.21.4
@@ -51,8 +51,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 7
-          memory: 32.0G
+          cpus: 8
+          memory: 24.0G
   
   # Backup
   backup:
