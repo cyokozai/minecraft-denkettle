@@ -51,6 +51,7 @@ services:
     volumes:
       - ./minecraft/data:/data
       - ./image/server-icon.png:/data/server-icon.png
+      - ./plugins/paper-global.yaml:/data/config/paper-global.yml
       - /etc/timezone:/etc/timezone:ro
     deploy:
       resources:
