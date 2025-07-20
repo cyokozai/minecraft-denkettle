@@ -1,4 +1,4 @@
-# minecraft-denkettle
+# DenKettle Minecraft server
 
 Private minecraft server "denkettle" configuration.
 

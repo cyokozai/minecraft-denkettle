@@ -5,7 +5,8 @@ services:
     restart: always
     stdin_open: TRUE
     tty: TRUE
-    image: itzg/minecraft-server
+    # image: itzg/minecraft-server:latest
+    image: marctv/minecraft-papermc-server:latest
     env_file:
       - .env
     environment:
@@ -14,6 +15,7 @@ services:
       ENABLE_ROLLING_LOGS: TRUE
       VERSION: ${VERSION} # or "latest"
       # TYPE: "VANILLA"
+      TYPE: "PAPER"
       DIFFICULTY: "hard"
       LEVEL: "world"
       MOTD: "✋(◉ ω ◉｀)よお"
@@ -31,12 +33,11 @@ services:
       ANNOUNCE_PLAYER_ACHIEVEMENTS: TRUE
       OVERRIDE_ICON: TRUE
       ENABLE_WHITELIST: TRUE
-      MAX_THREADS: 8
-      INIT_MEMORY: 4G
-      MAX_MEMORY: 24G
+      MAX_THREADS: 6
+      INIT_MEMORY: 8G
+      MAX_MEMORY: 16G
       SERVER_PORT: "30066"
       JVM_OPTS: "-XX:MaxRAMPercentage=95 -Xms24576M -Xmx24576M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15"
-      TYPE: "PAPER"
       # PLUGINS: |
       #   - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
       PAPER_CHANNEL: experimental
@@ -54,8 +55,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 8
-          memory: 24.0G
+          cpus: 6
+          memory: 16.0G
   
   # Backup
   backup:
@@ -81,4 +82,4 @@ services:
     network_mode: "service:mc-vanilla"
 
 volumes:
-  data: {}
+  minecraft: 
