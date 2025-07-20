@@ -58,6 +58,14 @@ services:
         limits:
           cpus: 6
           memory: 16.0G
+    command: >
+      sh -c "
+      /start &
+      SERVER_PID=$$!
+      sleep 30
+      sed -i 's/allow-piston-duplication: false/allow-piston-duplication: true/' /data/config/paper-global.yml
+      wait $$SERVER_PID
+      "
   
   # Backup
   backup:
