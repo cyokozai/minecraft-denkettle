@@ -155,16 +155,31 @@
                 const formattedUUID = `${uuid.substr(0, 8)}-${uuid.substr(8, 4)}-${uuid.substr(12, 4)}-${uuid.substr(16, 4)}-${uuid.substr(20)}`;
                 
                 // 結果を表示
-                resultDiv.innerHTML = `
-                    <div class="player-info">
-                        <img src="${avatarURL}" alt="Player Avatar" class="player-avatar">
-                        <div class="player-details">
-                            <p><strong>Name:</strong> ${correctName}</p>
-                            <p><strong>UUID:</strong> ${formattedUUID}</p>
-                        </div>
-                    </div>
+                const playerInfoDiv = document.createElement('div');
+                playerInfoDiv.className = 'player-info';
+
+                const playerAvatarImg = document.createElement('img');
+                const avatarRegex = /^https:\/\/crafatar\.com\/avatars\/[a-f0-9]{32}\?size=64&overlay$/;
+                if (avatarRegex.test(avatarURL)) {
+                    playerAvatarImg.src = avatarURL;
+                } else {
+                    playerAvatarImg.src = 'default-avatar.png'; // Fallback image
+                }
+                playerAvatarImg.alt = 'Player Avatar';
+                playerAvatarImg.className = 'player-avatar';
+
+                const playerDetailsDiv = document.createElement('div');
+                playerDetailsDiv.className = 'player-details';
+                playerDetailsDiv.innerHTML = `
+                    <p><strong>Name:</strong> ${correctName}</p>
+                    <p><strong>UUID:</strong> ${formattedUUID}</p>
                 `;
 
+                playerInfoDiv.appendChild(playerAvatarImg);
+                playerInfoDiv.appendChild(playerDetailsDiv);
+
+                resultDiv.innerHTML = '';
+                resultDiv.appendChild(playerInfoDiv);
             } catch (error) {
                 resultDiv.innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
             }
