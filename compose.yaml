@@ -37,7 +37,7 @@ services:
       INIT_MEMORY: 8G
       MAX_MEMORY: 16G
       SERVER_PORT: "25565"
-      JVM_OPTS: "-XX:MaxRAMPercentage=95 -Xms24576M -Xmx24576M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15"
+      JVM_OPTS: "-XX:MaxRAMPercentage=95 -Xms8192M -Xmx16384M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15"
       # PLUGINS: |
       #   - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
       PAPER_CHANNEL: experimental
