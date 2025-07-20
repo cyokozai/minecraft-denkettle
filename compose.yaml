@@ -50,7 +50,7 @@ services:
       - 100.100.100.100
     volumes:
       - ./minecraft/data:/data
-      - ./images/server-icon.png:/data/server-icon.png
+      - ./image/server-icon.png:/data/server-icon.png
       - /etc/timezone:/etc/timezone:ro
     deploy:
       resources:
