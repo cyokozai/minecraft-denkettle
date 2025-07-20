@@ -134,7 +134,7 @@
 
             try {
                 // Mojang APIにリクエスト
-                const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`);
+                const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${encodeURIComponent(username)}`);
 
                 if (!response.ok) {
                     if (response.status === 404) {
