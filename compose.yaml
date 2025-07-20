@@ -13,7 +13,7 @@ services:
       EULA: TRUE
       ENABLE_ROLLING_LOGS: TRUE
       VERSION: ${VERSION} # or "latest"
-      TYPE: "VANILLA"
+      # TYPE: "VANILLA"
       DIFFICULTY: "hard"
       LEVEL: "world"
       MOTD: "✋(◉ ω ◉｀)よお"
@@ -34,19 +34,22 @@ services:
       MAX_THREADS: 8
       INIT_MEMORY: 4G
       MAX_MEMORY: 24G
-      JVM_OPTS: "-XX:MaxRAMPercentage=95 -Xms24576M -Xmx24576M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15 -jar server-${VERSION}.jar"
-      # Plugins
-      # VERSION: 1.21.4
-      # TYPE: "SPIGOT"
-      # PLUGINS_FILE: "./plugins.txt"
+      SERVER_PORT: "30066"
+      JVM_OPTS: "-XX:MaxRAMPercentage=95 -Xms24576M -Xmx24576M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15"
+      TYPE: "PAPER"
+      # PLUGINS: |
+      #   - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
+      PAPER_CHANNEL: experimental
     ports:
-      - "25565:25565"
+      - "30066:30066/tcp"
+      - "30066:30066/udp"
     dns:
       - ${LOCAL_DNS}
       - 8.8.8.8
       - 100.100.100.100
     volumes:
       - ./minecraft/data:/data
+      - ./images/server-icon.png:/data/server-icon.png
       - /etc/timezone:/etc/timezone:ro
     deploy:
       resources:
