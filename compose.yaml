@@ -34,9 +34,9 @@ services:
       MAX_THREADS: 8
       INIT_MEMORY: 4G
       MAX_MEMORY: 24G
-      JVM_OPTS: "-XX:MaxRAMPercentage=95 -Xms24576M -Xmx24576M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15 -jar server-${VERSION}.jar"
+      JVM_OPTS: "-XX:MaxRAMPercentage=95 -Xms24576M -Xmx24576M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15"
       # Plugins
-      # VERSION: 1.21.4
+      # VERSION: ${VERSION} # or "latest"
       # TYPE: "SPIGOT"
       # PLUGINS_FILE: "./plugins.txt"
     ports:
