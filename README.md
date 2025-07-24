@@ -2,21 +2,52 @@
 
 Private minecraft server "denkettle" configuration.
 
+![icon](image/server-icon.png)
+
 ## .env file
 
 ```shell
 cat <<EOF > .env
-PASSWD=<Your password>
-LOCAL_DNS=<DNS server IP>
-SERVER_HOST_NAME=<Server host name>
-CONTAINER_NAME=<Minecraft container name>
-VERSION=<Version Number>
+PASSWD=hoge
+LOCAL_DNS=hogehoge
+SERVER_HOST_NAME=huga
+CONTAINER_NAME=hoge
+VERSION=latest
 EOF
 ```
 
+- Run `source` command.
+
+  ```shell
+  source .env
+  ```
+
+### Make a ConfigMap in Kubernetes
+
+- Run the following command.
+
 ```shell
-source .env
+kubectl create configmap minecraft-server-config --from-env-file=.env
 ```
+
+- Confirm the ConfigMap.
+
+  ```shell
+  kubectl get configmap minecraft-server-config
+  ```
+  
+  - Result
+  
+    ```shell
+    NAME                      DATA   AGE
+    minecraft-server-config   5      7s
+    ```
+
+- If you want to delete the ConfigMap, run the following command.
+
+  ```shell
+  kubectl delete configmap minecraft-server-config
+  ```
 
 ## Commands
 
