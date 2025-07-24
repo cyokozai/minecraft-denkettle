@@ -46,7 +46,7 @@ Private minecraft server "denkettle" configuration.
 - Set secret variables.
 
   ```shell
-  cat <<EOF > .env.secret
+  cat <<EOF > secret.env
   CONTAINER_NAME=hoge
   LOCAL_DNS=hogehoge
   SERVER_HOST_NAME=huga
@@ -58,7 +58,7 @@ Private minecraft server "denkettle" configuration.
 
   ```shell
   source .env
-  source .env.secret
+  source secret.env
   ```
 
 ### Make a ConfigMap in Kubernetes
