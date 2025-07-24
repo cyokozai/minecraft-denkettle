@@ -2,21 +2,79 @@
 
 Private minecraft server "denkettle" configuration.
 
+![icon](image/server-icon.png)
+
 ## .env file
 
 ```shell
 cat <<EOF > .env
-PASSWD=<Your password>
-LOCAL_DNS=<DNS server IP>
-SERVER_HOST_NAME=<Server host name>
-CONTAINER_NAME=<Minecraft container name>
-VERSION=<Version Number>
+PASSWD=hoge
+LOCAL_DNS=hogehoge
+SERVER_HOST_NAME=huga
+CONTAINER_NAME=hoge
+VERSION=latest
+EULA=TRUE
+ENABLE_ROLLING_LOGS=TRUE
+VERSION=${VERSION}
+TYPE="PAPER"
+DIFFICULTY="hard"
+LEVEL="world"
+MOTD="✋(◉ ω ◉｀)よお"
+MAX_PLAYERS=30
+MAX_WORLD_SIZE=12000
+ENABLE_RCON=TRUE
+RCON_PASSWORD=${PASSWD}
+ENABLE_COMMAND_BLOCK=TRUE
+FORCE_WORLD_COPY=TRUE
+SNOOPER_ENABLED=FALSE
+VIEW_DISTANCE=50
+SIMULATION_DISTANCE=100
+GAMEMODE="survival"
+PVP=TRUE
+ANNOUNCE_PLAYER_ACHIEVEMENTS=TRUE
+OVERRIDE_ICON=TRUE
+ENABLE_WHITELIST=TRUE
+MAX_THREADS=6
+INIT_MEMORY=8G
+MAX_MEMORY=16G
+SERVER_PORT="25565"
+JVM_OPTS="-XX:MaxRAMPercentage=95 -Xms8192M -Xmx16384M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15"
+PAPER_CHANNEL="experimental"
 EOF
 ```
 
+- Run `source` command.
+
+  ```shell
+  source .env
+  ```
+
+### Make a ConfigMap in Kubernetes
+
+- Run the following command.
+
 ```shell
-source .env
+kubectl create configmap minecraft-server-config --from-env-file=.env
 ```
+
+- Confirm the ConfigMap.
+
+  ```shell
+  kubectl get configmap minecraft-server-config
+  ```
+  
+  - Result
+  
+    ```shell
+    NAME                      DATA   AGE
+    minecraft-server-config   5      7s
+    ```
+
+- If you want to delete the ConfigMap, run the following command.
+
+  ```shell
+  kubectl delete configmap minecraft-server-config
+  ```
 
 ## Commands
 
