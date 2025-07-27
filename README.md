@@ -95,7 +95,7 @@ Private minecraft server "denkettle" configuration.
   ```
 
   ```shell
-  kubectl exec 
+  kubectl exec -it $CONTAINER_NAME -- /bin/bash
   ```
 
 ### RCON Commands
