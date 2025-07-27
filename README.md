@@ -49,6 +49,7 @@ Private minecraft server "denkettle" configuration.
   LOCAL_DNS=hogehoge
   SERVER_HOST_NAME=huga
   RCON_PASSWORD=hoge
+  TS_AUTHKEY=key
   EOF
   ```
 
