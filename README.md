@@ -2,36 +2,147 @@
 
 Private minecraft server "denkettle" configuration.
 
-## .env file
+![icon](image/server-icon.png)
 
-```shell
-cat <<EOF > .env
-PASSWD=<Your password>
-LOCAL_DNS=<DNS server IP>
-SERVER_HOST_NAME=<Server host name>
-CONTAINER_NAME=<Minecraft container name>
-VERSION=<Version Number>
-EOF
-```
+## Set up
 
-```shell
-source .env
-```
+### .env file
+
+- Set environment variables.
+
+  ```shell
+  cat <<EOF > .env
+  VERSION=latest
+  EULA=TRUE
+  ENABLE_ROLLING_LOGS=TRUE
+  TYPE=PAPER
+  DIFFICULTY=hard
+  LEVEL=world
+  MOTD=✋(◉ ω ◉｀)よお
+  MAX_PLAYERS=30
+  MAX_WORLD_SIZE=12000
+  ENABLE_RCON=TRUE
+  ENABLE_COMMAND_BLOCK=TRUE
+  FORCE_WORLD_COPY=TRUE
+  SNOOPER_ENABLED=FALSE
+  VIEW_DISTANCE=50
+  SIMULATION_DISTANCE=100
+  GAMEMODE=survival
+  PVP=TRUE
+  ANNOUNCE_PLAYER_ACHIEVEMENTS=TRUE
+  OVERRIDE_ICON=TRUE
+  ENABLE_WHITELIST=TRUE
+  MAX_THREADS=6
+  INIT_MEMORY=8G
+  MAX_MEMORY=16G
+  SERVER_PORT=25565
+  JVM_OPTS=-XX:MaxRAMPercentage=95 -Xms8192M -Xmx16384M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15
+  PAPER_CHANNEL=experimental
+  EOF
+  ```
+
+- Set secret variables.
+
+  ```shell
+  cat <<EOF > secret.env
+  CONTAINER_NAME=hoge
+  LOCAL_DNS=hogehoge
+  SERVER_HOST_NAME=huga
+  RCON_PASSWORD=hoge
+  EOF
+  ```
+
+### Make a ConfigMap and Secret (Kubernetes/minikube)
+
+- Run the following command.
+
+  ```shell
+  sudo chmod +x gensecret.sh
+  ```
+
+- Create a ConfigMap.
+
+  ```shell
+  ./gensecret.sh .env ConfigMap
+  ConfigMap created in manifests/k8s-configmap.yaml
+  ```
+
+- Create a Secret.
+
+  ```shell
+  ./gensecret.sh secret.env Secret
+  Secret created in manifests/k8s-secret.yaml
+  ```
+
+### minikube config
+
+- Run the following command.
+  
+  ```shell
+  minikube start --driver=docker --memory=20480 --cpus=8
+  ```
+
+- Check the minikube IP address.
+
+  ```shell
+  minikube ip
+  ```
+
+- Replace with your minikube IP address in `manifests/networking.yaml`.
+
+  ```yaml
+  ~~~
+  spec:
+    rules:
+      - host: xxx.xxx.xxx.xxx # Replace with your minikube IP
+        http:
+  ~~~
+  ```
+
+- Allow using ingress.
+
+  ```shell
+  minikube addons enable ingress
+  ```
 
 ## Commands
 
-- Docker compose up
+### Docker
+
+- Run Docker container.
 
   ```shell
   docker compose up -d
   ```
 
-## RCON Commands
+- Stop Docker container:
 
-- Run Docker commands
+  ```shell
+  docker compose down
+  ```
+
+### Kubernetes
+
+  ```shell
+  kubectl apply -f manifests
+  ```
+
+  ```shell
+  kubectl exec -it $CONTAINER_NAME -- /bin/bash
+  ```
+
+### RCON Commands
+
+- Docker exec
 
   ```shell
   docker exec -i $CONTAINER_NAME rcon-cli
+  ```
+
+- Kubectl exec
+
+  ```shell
+  kubectl exec -it $CONTAINER_NAME rcon-cli
   ```
 
 - RCON commands
@@ -53,7 +164,8 @@ source .env
     enchant <target> <enchant name> [<count>]
     ```
 
-    - unbreaking, mending
+    - unbreaking
+    - mending
 
 ## Plugin Server
 
