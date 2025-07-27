@@ -82,7 +82,7 @@ Private minecraft server "denkettle" configuration.
   docker compose up -d
   ```
 
-- Stop  docker compose down
+- Stop Docker container:
 
   ```shell
   docker compose down
