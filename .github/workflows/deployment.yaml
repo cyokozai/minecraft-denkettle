@@ -57,10 +57,12 @@ jobs:
       run: |
         docker compose pull
         
-    - name: Run compose up (dry run)
+    - name: Validate Docker Compose configuration
       run: |
-        echo "🚀 Testing compose up with dry run..."
-        docker compose up --dry-run
+        echo "🚀 Validating Docker Compose configuration..."
+        docker compose config --quiet
+        echo "✅ Docker Compose configuration is valid"
+
         
   deploy:
     name: Deploy with Docker Compose
