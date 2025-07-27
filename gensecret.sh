@@ -31,9 +31,13 @@ echo "apiVersion: v1
 kind: $KIND
 metadata:
   name: $FILE_NAME
-  namespace: $NAMESPACE
-type: Opaque
-data:" > manifests/$FILE_NAME.yaml
+  namespace: $NAMESPACE" > manifests/$FILE_NAME.yaml
+
+if [[ "$KIND" == "Secret" ]]; then
+  echo "type: Opaque" >> manifests/$FILE_NAME.yaml
+fi
+
+echo "data:" >> manifests/$FILE_NAME.yaml
 
 while IFS='=' read -r key value || [[ -n "$key" ]]; do
   [[ "$key" == \#* || -z "$key" ]] && continue
