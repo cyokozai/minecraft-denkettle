@@ -30,7 +30,7 @@ metadata:
     app: denkettle
 spec:
   rules:
-    - host: 192.168.49.2
+    - host: 192.168.49.2 # Replace with your minikube IP
       http:
         paths:
           - pathType: Prefix

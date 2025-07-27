@@ -76,13 +76,34 @@ Private minecraft server "denkettle" configuration.
 
 ### minikube config
 
-- Check the minikube IP address
+- Run the following command.
+  
+  ```shell
+  minikube start --driver=docker --memory=20480 --cpus=8
+  ```
+
+- Check the minikube IP address.
 
   ```shell
   minikube ip
   ```
 
-- 
+- Replace with your minikube IP address in `manifests/networking.yaml`.
+
+  ```yaml
+  ~~~
+  spec:
+    rules:
+      - host: xxx.xxx.xxx.xxx # Replace with your minikube IP
+        http:
+  ~~~
+  ```
+
+- Allow using ingress.
+
+  ```shell
+  minikube addons enable ingress
+  ```
 
 ## Commands
 
