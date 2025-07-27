@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k8s-configmap
+  namespace: default
+data:
+  VERSION: 'latest'
+  EULA: 'TRUE'
+  ENABLE_ROLLING_LOGS: 'TRUE'
+  TYPE: 'PAPER'
+  DIFFICULTY: 'hard'
+  LEVEL: 'world'
+  MOTD: '✋(◉ ω ◉｀)よお'
+  MAX_PLAYERS: '30'
+  MAX_WORLD_SIZE: '12000'
+  ENABLE_RCON: 'TRUE'
+  ENABLE_COMMAND_BLOCK: 'TRUE'
+  FORCE_WORLD_COPY: 'TRUE'
+  SNOOPER_ENABLED: 'FALSE'
+  VIEW_DISTANCE: '50'
+  SIMULATION_DISTANCE: '100'
+  GAMEMODE: 'survival'
+  PVP: 'TRUE'
+  ANNOUNCE_PLAYER_ACHIEVEMENTS: 'TRUE'
+  OVERRIDE_ICON: 'TRUE'
+  ENABLE_WHITELIST: 'TRUE'
+  MAX_THREADS: '6'
+  INIT_MEMORY: '8G'
+  MAX_MEMORY: '16G'
+  SERVER_PORT: '25565'
+  JVM_OPTS: '-XX:MaxRAMPercentage=95 -Xms8192M -Xmx16384M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15'
+  PAPER_CHANNEL: 'experimental'
