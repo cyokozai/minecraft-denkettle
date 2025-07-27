@@ -53,6 +53,32 @@ Private minecraft server "denkettle" configuration.
   EOF
   ```
 
+### Set up TailScale with Helm (Kubernetes)
+
+- Run the following command.
+
+  ```shell
+  helm repo add tailscale https://pkgs.tailscale.com/helmcharts
+  helm repo update
+  ```
+
+- Run the following command to install the operator.
+
+  ```shell
+  helm upgrade --install tailscale-operator tailscale/tailscale-operator \
+  --namespace=tailscale \
+  --create-namespace \
+  --set-string oauth.clientId=<oauth_client_id> \
+  --set-string oauth.clientSecret=<oauth_client_secret> \
+  --wait
+  helm upgrade --install tailscale-operator tailscale/tailscale-operator \
+  --namespace=tailscale \
+  --create-namespace \
+  --set-string oauth.clientId=<oauth_client_id> \
+  --set-string oauth.clientSecret=<oauth_client_secret> \
+  --wait
+  ```
+
 ### Make a ConfigMap and Secret (Kubernetes/minikube)
 
 - Run the following command.
