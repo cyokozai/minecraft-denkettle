@@ -43,12 +43,12 @@ echo "data:" >> manifests/$FILE_NAME.yaml
 while IFS='=' read -r key value || [[ -n "$key" ]]; do
   [[ "$key" == \#* || -z "$key" ]] && continue
   if [[ "$KIND" == "ConfigMap" ]]; then
-    encoded_value=$(echo -n "$value" | sed 's/"/\\"/g')
+    encoded_value='$(echo -n "$value" | sed 's/"/\\"/g')'
   fi
   if [[ "$KIND" == "Secret" ]]; then
-    encoded_value=$(echo -n "$value" | base64)  # Encode value for Secret
+    encoded_value=$(echo -n "$value" | base64 -w)  # Encode value for Secret
   fi
-  echo "  $key: '$encoded_value'" >> manifests/$FILE_NAME.yaml
+  echo "  $key: $encoded_value" >> manifests/$FILE_NAME.yaml
 done < "$ENV_FILE"
 
 echo "$KIND created in manifests/$FILE_NAME.yaml"
