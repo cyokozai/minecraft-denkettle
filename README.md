@@ -49,7 +49,34 @@ Private minecraft server "denkettle" configuration.
   LOCAL_DNS=hogehoge
   SERVER_HOST_NAME=huga
   RCON_PASSWORD=hoge
+  TS_AUTHKEY=key
   EOF
+  ```
+
+### Set up TailScale with Helm (Kubernetes)
+
+- Run the following command.
+
+  ```shell
+  helm repo add tailscale https://pkgs.tailscale.com/helmcharts
+  helm repo update
+  ```
+
+- Run the following command to install the operator.
+
+  ```shell
+  helm upgrade --install tailscale-operator tailscale/tailscale-operator \
+  --namespace=tailscale \
+  --create-namespace \
+  --set-string oauth.clientId=<oauth_client_id> \
+  --set-string oauth.clientSecret=<oauth_client_secret> \
+  --wait
+  helm upgrade --install tailscale-operator tailscale/tailscale-operator \
+  --namespace=tailscale \
+  --create-namespace \
+  --set-string oauth.clientId=<oauth_client_id> \
+  --set-string oauth.clientSecret=<oauth_client_secret> \
+  --wait
   ```
 
 ### Make a ConfigMap and Secret (Kubernetes/minikube)

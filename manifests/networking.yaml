@@ -4,11 +4,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: denkettle-minecraft
+  name: denkettle-svc
   labels:
     app: denkettle
+  annotations:
+    tailscale.com/expose: "true"
 spec:
-  type: NodePort
   selector:
     app: denkettle
   ports:
@@ -16,30 +17,34 @@ spec:
       port: 25565
       targetPort: 25565
       protocol: TCP
-      nodePort: 30565  # Fixed external port for Minecraft
     - name: rcon
       port: 25575
       targetPort: 25575
       protocol: TCP
-      nodePort: 30575  # Fixed external port for RCON
 ---
-# Internal ClusterIP service for pod-to-pod communication
 apiVersion: v1
-kind: Service
+kind: ServiceAccount
 metadata:
-  name: denkettle-internal
-  labels:
-    app: denkettle
-spec:
-  type: ClusterIP
-  selector:
-    app: denkettle
-  ports:
-    - name: minecraft-tcp
-      port: 25565
-      targetPort: 25565
-      protocol: TCP
-    - name: rcon
-      port: 25575
-      targetPort: 25575
-      protocol: TCP
+  name: tailscale
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: tailscale
+rules:
+  - apiGroups: [""]
+    resourceNames: ["tailscale-auth"]
+    resources: ["secrets"]
+    verbs: ["get", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tailscale
+subjects:
+  - kind: ServiceAccount
+    name: tailscale
+roleRef:
+  kind: Role
+  name: tailscale
+  apiGroup: rbac.authorization.k8s.io
