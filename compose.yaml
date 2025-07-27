@@ -5,7 +5,6 @@ services:
     restart: always
     stdin_open: TRUE
     tty: TRUE
-    # image: itzg/minecraft-server:latest
     image: marctv/minecraft-papermc-server:latest
     env_file:
       - .env
