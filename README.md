@@ -82,7 +82,7 @@ Private minecraft server "denkettle" configuration.
   docker compose up -d
   ```
 
-- Stop  docker compose down
+- Stop Docker container:
 
   ```shell
   docker compose down
@@ -95,7 +95,7 @@ Private minecraft server "denkettle" configuration.
   ```
 
   ```shell
-  kubectl exec 
+  kubectl exec -it $CONTAINER_NAME -- /bin/bash
   ```
 
 ### RCON Commands
