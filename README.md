@@ -10,17 +10,13 @@ Private minecraft server "denkettle" configuration.
 
   ```shell
   cat <<EOF > .env
-  CONTAINER_NAME=hoge
-  LOCAL_DNS=hogehoge
-  SERVER_HOST_NAME=huga
-  RCON_PASSWORD=hoge
   VERSION=latest
   EULA=TRUE
   ENABLE_ROLLING_LOGS=TRUE
-  TYPE="PAPER"
-  DIFFICULTY="hard"
-  LEVEL="world"
-  MOTD="✋(◉ ω ◉｀)よお"
+  TYPE=PAPER
+  DIFFICULTY=hard
+  LEVEL=world
+  MOTD=✋(◉ ω ◉｀)よお
   MAX_PLAYERS=30
   MAX_WORLD_SIZE=12000
   ENABLE_RCON=TRUE
@@ -29,7 +25,7 @@ Private minecraft server "denkettle" configuration.
   SNOOPER_ENABLED=FALSE
   VIEW_DISTANCE=50
   SIMULATION_DISTANCE=100
-  GAMEMODE="survival"
+  GAMEMODE=survival
   PVP=TRUE
   ANNOUNCE_PLAYER_ACHIEVEMENTS=TRUE
   OVERRIDE_ICON=TRUE
@@ -37,9 +33,9 @@ Private minecraft server "denkettle" configuration.
   MAX_THREADS=6
   INIT_MEMORY=8G
   MAX_MEMORY=16G
-  SERVER_PORT="25565"
-  JVM_OPTS="-XX:MaxRAMPercentage=95 -Xms8192M -Xmx16384M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15"
-  PAPER_CHANNEL="experimental"
+  SERVER_PORT=25565
+  JVM_OPTS=-XX:MaxRAMPercentage=95 -Xms8192M -Xmx16384M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15
+  PAPER_CHANNEL=experimental
   EOF
   ```
 
@@ -54,54 +50,66 @@ Private minecraft server "denkettle" configuration.
   EOF
   ```
 
-- Run `source` command.
-
-  ```shell
-  source .env
-  source secret.env
-  ```
-
-### Make a ConfigMap in Kubernetes
+### Make a ConfigMap and Secret
 
 - Run the following command.
 
-```shell
-kubectl create configmap minecraft-server-config --from-env-file=.env
-```
-
-- Confirm the ConfigMap.
-
   ```shell
-  kubectl get configmap minecraft-server-config
+  sudo chmod +x gensecret.sh
   ```
-  
-  - Result
-  
-    ```shell
-    NAME                      DATA   AGE
-    minecraft-server-config   5      7s
-    ```
 
-- If you want to delete the ConfigMap, run the following command.
+- Create a ConfigMap.
 
   ```shell
-  kubectl delete configmap minecraft-server-config
+  ./gensecret.sh .env ConfigMap
+  ConfigMap created in manifests/k8s-configmap.yaml
+  ```
+
+- Create a Secret.
+
+  ```shell
+  ./gensecret.sh secret.env Secret
+  Secret created in manifests/k8s-secret.yaml
   ```
 
 ## Commands
 
-- Docker compose up
+### Docker
+
+- Run Docker container.
 
   ```shell
   docker compose up -d
   ```
 
-## RCON Commands
+- Stop  docker compose down
 
-- Run Docker commands
+  ```shell
+  docker compose down
+  ```
+
+### Kubernetes 
+
+  ```shell
+  kubectl apply -f manifests
+  ```
+
+  ```shell
+  kubectl exec 
+  ```
+
+### RCON Commands
+
+- Docker exec
 
   ```shell
   docker exec -i $CONTAINER_NAME rcon-cli
+  ```
+
+- Kubectl exec
+
+  ```shell
+  kubectl exec -it $CONTAINER_NAME rcon-cli
   ```
 
 - RCON commands
@@ -123,7 +131,8 @@ kubectl create configmap minecraft-server-config --from-env-file=.env
     enchant <target> <enchant name> [<count>]
     ```
 
-    - unbreaking, mending
+    - unbreaking
+    - mending
 
 ## Plugin Server
 
