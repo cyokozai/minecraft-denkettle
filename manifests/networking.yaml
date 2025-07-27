@@ -1,6 +1,29 @@
 ---
 # Minecraft Service for Tailscale VPN access
-# Internal service for pod-to-pod communication
+# NodePort service for direct external access via Tailscale VPN
+apiVersion: v1
+kind: Service
+metadata:
+  name: denkettle-minecraft
+  labels:
+    app: denkettle
+spec:
+  type: NodePort
+  selector:
+    app: denkettle
+  ports:
+    - name: minecraft-tcp
+      port: 25565
+      targetPort: 25565
+      protocol: TCP
+      nodePort: 30565  # Fixed external port for Minecraft
+    - name: rcon
+      port: 25575
+      targetPort: 25575
+      protocol: TCP
+      nodePort: 30575  # Fixed external port for RCON
+---
+# Internal ClusterIP service for pod-to-pod communication
 apiVersion: v1
 kind: Service
 metadata:
@@ -20,23 +43,3 @@ spec:
       port: 25575
       targetPort: 25575
       protocol: TCP
----
-# Ingress for external access
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: denkettle-external
-  labels:
-    app: denkettle
-spec:
-  rules:
-    - host: 192.168.49.2 # Replace with your minikube IP
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: denkettle-internal
-                port:
-                  number: 25565
