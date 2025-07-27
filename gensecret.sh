@@ -27,7 +27,8 @@ if [[ "$KIND" != "ConfigMap" && "$KIND" != "Secret" ]]; then
   exit 1
 fi
 
-echo "apiVersion: v1
+echo "---
+apiVersion: v1
 kind: $KIND
 metadata:
   name: $FILE_NAME

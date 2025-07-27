@@ -4,7 +4,9 @@ Private minecraft server "denkettle" configuration.
 
 ![icon](image/server-icon.png)
 
-## .env file
+## Set up
+
+### .env file
 
 - Set environment variables.
 
@@ -50,7 +52,7 @@ Private minecraft server "denkettle" configuration.
   EOF
   ```
 
-### Make a ConfigMap and Secret
+### Make a ConfigMap and Secret (Kubernetes/minikube)
 
 - Run the following command.
 
@@ -72,6 +74,16 @@ Private minecraft server "denkettle" configuration.
   Secret created in manifests/k8s-secret.yaml
   ```
 
+### minikube config
+
+- Check the minikube IP address
+
+  ```shell
+  minikube ip
+  ```
+
+- 
+
 ## Commands
 
 ### Docker
@@ -88,7 +100,7 @@ Private minecraft server "denkettle" configuration.
   docker compose down
   ```
 
-### Kubernetes 
+### Kubernetes
 
   ```shell
   kubectl apply -f manifests

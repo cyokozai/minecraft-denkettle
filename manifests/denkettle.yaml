@@ -52,20 +52,4 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 1Gi
----
-# This service is replaced by the one in networking.yaml
-# Keep for reference or remove after testing
-apiVersion: v1
-kind: Service
-metadata:
-  name: denkettle-internal
-spec:
-  type: ClusterIP
-  selector:
-    app: denkettle
-  ports:
-    - port: 25565
-      protocol: TCP
-    - port: 25575
-      protocol: TCP
+            storage: 6Gi

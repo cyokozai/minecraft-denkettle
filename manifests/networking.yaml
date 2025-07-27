@@ -1,64 +1,42 @@
 ---
-# MetalLB IP Address Pool for minikube
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: minecraft-pool
-  namespace: metallb-system
-spec:
-  addresses:
-  # minikube IP range - adjust based on your minikube network
-  - 192.168.49.100-192.168.49.110
----
-# MetalLB L2 Advertisement
-apiVersion: metallb.io/v1beta1
-kind: L2Advertisement
-metadata:
-  name: minecraft-l2-adv
-  namespace: metallb-system
-spec:
-  ipAddressPools:
-  - minecraft-pool
----
-# Updated Service for Minecraft Paper Server
+# Minecraft Service for Tailscale VPN access
+# Internal service for pod-to-pod communication
 apiVersion: v1
 kind: Service
 metadata:
-  name: denkettle-minecraft
-  annotations:
-    metallb.universe.tf/loadBalancerIPs: "192.168.49.100"
-spec:
-  type: LoadBalancer
-  selector:
+  name: denkettle-internal
+  labels:
     app: denkettle
-  ports:
-    # Minecraft Java Edition (Paper)
-    - name: minecraft-tcp
-      port: 25565
-      targetPort: 25565
-      protocol: TCP
-    # RCON Port
-    - name: rcon
-      port: 25575
-      targetPort: 25575
-      protocol: TCP
-  sessionAffinity: ClientIP
-  sessionAffinityConfig:
-    clientIP:
-      timeoutSeconds: 3600
----
-# Optional: Monitoring Service
-apiVersion: v1
-kind: Service
-metadata:
-  name: denkettle-monitoring
 spec:
   type: ClusterIP
   selector:
     app: denkettle
   ports:
-    # Prometheus metrics (if enabled)
-    - name: metrics
-      port: 8080
-      targetPort: 8080
+    - name: minecraft-tcp
+      port: 25565
+      targetPort: 25565
       protocol: TCP
+    - name: rcon
+      port: 25575
+      targetPort: 25575
+      protocol: TCP
+---
+# Ingress for external access
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: denkettle-external
+  labels:
+    app: denkettle
+spec:
+  rules:
+    - host: 192.168.49.2
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: denkettle
+                port:
+                  number: 25565
