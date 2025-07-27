@@ -3,7 +3,6 @@ kind: ConfigMap
 metadata:
   name: k8s-configmap
   namespace: default
-type: Opaque
 data:
   VERSION: 'latest'
   EULA: 'TRUE'
