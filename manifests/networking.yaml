@@ -37,6 +37,6 @@ spec:
             path: /
             backend:
               service:
-                name: denkettle
+                name: denkettle-internal
                 port:
                   number: 25565
