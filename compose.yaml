@@ -31,7 +31,11 @@ services:
       /start &
       SERVER_PID=$$!
       sleep 30
+      sed -i 's/allow-headless-pistons: false/allow-headless-pistons: true/' /data/config/paper-global.yml
       sed -i 's/allow-piston-duplication: false/allow-piston-duplication: true/' /data/config/paper-global.yml
+      sed -i 's/allow-unsafe-end-portal-teleportation: false/allow-unsafe-end-portal-teleportation: true/' /data/config/paper-global.yml
+      sed -i 's/max-entity-collisions: 8/max-entity-collisions: 16/' /data/config/paper-global.yml
+      sed -i 's/skip-tripwire-hook-placement-validation: false/skip-tripwire-hook-placement-validation: true/' /data/config/paper-global.yml
       wait $$SERVER_PID
       "
   

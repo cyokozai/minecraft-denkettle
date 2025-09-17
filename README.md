@@ -196,19 +196,25 @@ Private minecraft server "denkettle" configuration.
 
 ## Plugin Server
 
+[source](https://shockbyte.com/help/knowledgebase/articles/how-to-configure-tnt-duping-and-other-exploits-on-a-papermc-server)
+
+[wiki](https://docs.papermc.io/paper/reference/global-configuration/)
+
 - `minecraft-denkettle/minecraft/data/config/paper-global.yml`
 
-```yaml
-~~~
-unsupported-settings:
-  allow-headless-pistons: false
-  allow-permanent-block-break-exploits: false
-  allow-piston-duplication: true # <- change here
-  allow-unsafe-end-portal-teleportation: false
-  compression-format: ZLIB
-  perform-username-validation: true
-  skip-tripwire-hook-placement-validation: false
-  skip-vanilla-damage-tick-when-shield-blocked: false
-  update-equipment-on-player-actions: true
-~~~
-```
+  ```yaml
+  ~~~
+  unsupported-settings:
+    allow-headless-pistons: true # <- change here
+    allow-permanent-block-break-exploits: false
+    allow-unsafe-end-portal-teleportation: true # <- change here
+    allow-piston-duplication: true # <- change here
+    allow-unsafe-end-portal-teleportation:  true # <- change here
+    compression-format: ZLIB
+    perform-username-validation: true
+    skip-tripwire-hook-placement-validation: true # <- change here
+    skip-vanilla-damage-tick-when-shield-blocked: false
+    update-equipment-on-player-actions: true
+  ~~~
+  ```
+
