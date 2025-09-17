@@ -8,6 +8,7 @@ services:
     image: marctv/minecraft-papermc-server:latest
     env_file:
       - .env
+      - secret.env
     environment:
       TZ: Asia/Tokyo
     ports:
@@ -16,6 +17,7 @@ services:
     dns:
       - ${LOCAL_DNS}
       - 8.8.8.8
+      - 1.1.1.1
       - 100.100.100.100
     volumes:
       - ./minecraft/data:/data
