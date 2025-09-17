@@ -1,0 +1,50 @@
+---
+# Minecraft Service for Tailscale VPN access
+# NodePort service for direct external access via Tailscale VPN
+apiVersion: v1
+kind: Service
+metadata:
+  name: denkettle-svc
+  labels:
+    app: denkettle
+  annotations:
+    tailscale.com/expose: "true"
+spec:
+  selector:
+    app: denkettle
+  ports:
+    - name: minecraft-tcp
+      port: 25565
+      targetPort: 25565
+      protocol: TCP
+    - name: rcon
+      port: 25575
+      targetPort: 25575
+      protocol: TCP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tailscale
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: tailscale
+rules:
+  - apiGroups: [""]
+    resourceNames: ["tailscale-auth"]
+    resources: ["secrets"]
+    verbs: ["get", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tailscale
+subjects:
+  - kind: ServiceAccount
+    name: tailscale
+roleRef:
+  kind: Role
+  name: tailscale
+  apiGroup: rbac.authorization.k8s.io
