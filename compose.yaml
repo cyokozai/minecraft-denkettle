@@ -1,6 +1,6 @@
 services:
   # Application
-  mc-vanilla: 
+  mc-vanilla:
     container_name: ${CONTAINER_NAME}
     restart: always
     stdin_open: TRUE
@@ -21,8 +21,8 @@ services:
       - 100.100.100.100
     volumes:
       - ./minecraft/data:/data
-      - minecraft:/data
       - ./image/server-icon.png:/data/server-icon.png
+      - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     deploy:
       resources:
@@ -44,7 +44,7 @@ services:
   
   # Backup
   backup:
-    restart: always
+    restart: unless-stopped
     image: itzg/mc-backup
     depends_on:
       - mc-vanilla
@@ -63,10 +63,13 @@ services:
       RCON_HOST: localhost
       RCON_PASSWORD: ${PASSWD}
       SERVER_HOST: ${SERVER_HOST_NAME}
+      CRON_SCHEDULE: "0 12 * * *"
+      CRON_BACKUP_UID: 1000
+      DEST_DIR: /data
+      LINK_LATEST: false
+      TAR_COMPRESS_METHOD: gzip
+      ZSTD_PARAMETERS: "-3 --long=25 --single-thread"
     volumes:
-      - ./minecraft/backup/data:/data
-      - minecraft:/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     network_mode: "service:mc-vanilla"
-
-volumes:
-  minecraft: 
