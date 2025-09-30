@@ -21,6 +21,7 @@ services:
       - 100.100.100.100
     volumes:
       - ./minecraft/data:/data
+      - minecraft:/data
       - ./image/server-icon.png:/data/server-icon.png
       - /etc/timezone:/etc/timezone:ro
     deploy:
@@ -64,6 +65,7 @@ services:
       SERVER_HOST: ${SERVER_HOST_NAME}
     volumes:
       - ./minecraft/backup/data:/data
+      - minecraft:/data
     network_mode: "service:mc-vanilla"
 
 volumes:
