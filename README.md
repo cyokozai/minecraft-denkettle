@@ -200,6 +200,8 @@ Private minecraft server "denkettle" configuration.
 
 [wiki](https://docs.papermc.io/paper/reference/global-configuration/)
 
+[Docker image](https://hub.docker.com/r/itzg/minecraft-server)
+
 - `minecraft-denkettle/minecraft/data/config/paper-global.yml`
 
   ```yaml
