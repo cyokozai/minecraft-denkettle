@@ -207,9 +207,8 @@ Private minecraft server "denkettle" configuration.
   unsupported-settings:
     allow-headless-pistons: true # <- change here
     allow-permanent-block-break-exploits: false
-    allow-unsafe-end-portal-teleportation: true # <- change here
     allow-piston-duplication: true # <- change here
-    allow-unsafe-end-portal-teleportation:  true # <- change here
+    allow-unsafe-end-portal-teleportation: true # <- change here
     compression-format: ZLIB
     perform-username-validation: true
     skip-tripwire-hook-placement-validation: true # <- change here
@@ -217,4 +216,3 @@ Private minecraft server "denkettle" configuration.
     update-equipment-on-player-actions: true
   ~~~
   ```
-
