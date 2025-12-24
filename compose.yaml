@@ -1,56 +1,28 @@
 services:
   # Application
-  mc-vanilla: 
+  mc-vanilla:
     container_name: ${CONTAINER_NAME}
     restart: always
     stdin_open: TRUE
     tty: TRUE
-    # image: itzg/minecraft-server:latest
     image: marctv/minecraft-papermc-server:latest
     env_file:
       - .env
+      - secret.env
     environment:
       TZ: Asia/Tokyo
-      EULA: TRUE
-      ENABLE_ROLLING_LOGS: TRUE
-      VERSION: ${VERSION} # or "latest"
-      # TYPE: "VANILLA"
-      TYPE: "PAPER"
-      DIFFICULTY: "hard"
-      LEVEL: "world"
-      MOTD: "✋(◉ ω ◉｀)よお"
-      MAX_PLAYERS: 30
-      MAX_WORLD_SIZE: 12000
-      ENABLE_RCON: TRUE
-      RCON_PASSWORD: ${PASSWD}
-      ENABLE_COMMAND_BLOCK: TRUE
-      FORCE_WORLD_COPY: TRUE
-      SNOOPER_ENABLED: FALSE
-      VIEW_DISTANCE: 50
-      SIMULATION_DISTANCE: 100
-      GAMEMODE: "survival"
-      PVP: TRUE
-      ANNOUNCE_PLAYER_ACHIEVEMENTS: TRUE
-      OVERRIDE_ICON: TRUE
-      ENABLE_WHITELIST: TRUE
-      MAX_THREADS: 6
-      INIT_MEMORY: 8G
-      MAX_MEMORY: 16G
-      SERVER_PORT: "25565"
-      JVM_OPTS: "-XX:MaxRAMPercentage=95 -Xms8192M -Xmx16384M -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15"
-      # PLUGINS: |
-      #   - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
-      PAPER_CHANNEL: experimental
     ports:
       - "25565:25565/tcp"
       - "25565:25565/udp"
     dns:
       - ${LOCAL_DNS}
       - 8.8.8.8
+      - 1.1.1.1
       - 100.100.100.100
     volumes:
       - ./minecraft/data:/data
       - ./image/server-icon.png:/data/server-icon.png
+      - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     deploy:
       resources:
@@ -62,16 +34,22 @@ services:
       /start &
       SERVER_PID=$$!
       sleep 30
+      sed -i 's/allow-headless-pistons: false/allow-headless-pistons: true/' /data/config/paper-global.yml
       sed -i 's/allow-piston-duplication: false/allow-piston-duplication: true/' /data/config/paper-global.yml
+      sed -i 's/allow-unsafe-end-portal-teleportation: false/allow-unsafe-end-portal-teleportation: true/' /data/config/paper-global.yml
+      sed -i 's/max-entity-collisions: 8/max-entity-collisions: 16/' /data/config/paper-global.yml
+      sed -i 's/skip-tripwire-hook-placement-validation: false/skip-tripwire-hook-placement-validation: true/' /data/config/paper-global.yml
       wait $$SERVER_PID
       "
   
   # Backup
   backup:
-    restart: always
+    restart: unless-stopped
     image: itzg/mc-backup
     depends_on:
       - mc-vanilla
+    env_file:
+      - .env
     environment:
       TZ: Asia/Tokyo
       BACKUP_NAME: "${CONTAINER_NAME}-backup"
@@ -85,9 +63,13 @@ services:
       RCON_HOST: localhost
       RCON_PASSWORD: ${PASSWD}
       SERVER_HOST: ${SERVER_HOST_NAME}
+      CRON_SCHEDULE: "0 12 * * *"
+      CRON_BACKUP_UID: 1000
+      DEST_DIR: /data
+      LINK_LATEST: false
+      TAR_COMPRESS_METHOD: gzip
+      ZSTD_PARAMETERS: "-3 --long=25 --single-thread"
     volumes:
-      - ./minecraft/backup/data:/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     network_mode: "service:mc-vanilla"
-
-volumes:
-  minecraft: 
