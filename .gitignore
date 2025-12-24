@@ -25,10 +25,9 @@ replay_pid*
 
 *secret.yaml
 *.env*
-backup/
-data/
 
-!./data/server-icon.png
-!./data/ops.json
-!./data/whitelist.json
-!./data/usercache.json
+minecraft/*
+!./minecraft/data/server-icon.png
+!./minecraft/data/ops.json
+!./minecraft/data/whitelist.json
+!./minecraft/data/usercache.json
